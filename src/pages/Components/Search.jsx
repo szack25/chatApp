@@ -10,6 +10,7 @@ const Search = () => {
     const [user, setUser] = useState(null)
     const [err, setErr] = useState(false)
     const { currentUser } = useContext(AuthContext)
+    const [loading, setLoading] = useState(false);
 
     const handleSearch = async () => {
         const q = query(collection(db, "users"), where("displayName", "==", username));
@@ -26,8 +27,9 @@ const Search = () => {
         e.code === "Enter" && handleSearch()
     }
     const handleSelect = async () => {
-        const combinedId =
-            currentUser.uid > user.uid
+        setLoading(true);
+        const combinedId = 
+            currentUser.uid.length > user.uid.length
                 ? currentUser.uid + user.uid
                 : user.uid + currentUser.uid
         try {
@@ -57,7 +59,8 @@ const Search = () => {
         } catch (err) { }
 
         setUser(null);
-        setUsername("")
+        setUsername("");
+        setLoading(false)
     };
     return (
         <div className="Search">

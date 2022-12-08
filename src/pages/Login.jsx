@@ -16,8 +16,8 @@ const Login = () => {
         const password = e.target[1].value;
 
         try {
-            signInWithEmailAndPassword(auth, email, password);
-            navigate("/login")
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate("/")
         } catch (err) {
             setErr(true);
         }
@@ -28,8 +28,8 @@ const Login = () => {
             <div className="formWrapper">
                 <h1 className="pageTitle">Login</h1>
                 <form onSubmit={handleSubmit}>
-                    <input type="email" placeholder="Email" id="" />
-                    <input type="password" placeholder="Password" id="" />
+                    <input type="email" placeholder="Email" id="email" />
+                    <input type="password" placeholder="Password" id="password" />
                     <button>Sign In</button>
                     {err && <span>Something went wrong</span>}
                 </form>
