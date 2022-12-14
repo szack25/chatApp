@@ -4,7 +4,6 @@ import Login from './pages/Login';
 import { useContext } from 'react';
 import { AuthContext } from './Context/AuthContext';
 import Home from './pages/Home';
-import './style.scss';
 import Profile from './pages/Components/Profile';
 
 function App() {
@@ -12,7 +11,7 @@ function App() {
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
-      return <Navigate to="/register" />;
+      return <Navigate to="/register" />
     }
     return children
   };
