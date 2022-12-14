@@ -4,11 +4,15 @@
   "private": true,
   "dependencies": {
     "@firebase/firestore": "^3.7.3",
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
     "dotenv": "^16.0.3",
+    "dotenv-webpack": "^8.0.1",
     "env": "^0.0.2",
     "firebase": "^9.14.0",
     "fs": "^0.0.1-security",
@@ -23,15 +27,16 @@
     "react-loading": "^2.0.3",
     "react-router-dom": "^6.4.4",
     "react-scripts": "^5.0.1",
+    "react-scroll": "^1.8.9",
     "react-spinners": "^0.13.6",
     "sass": "^1.56.1",
     "uuid": "^9.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-dotenv && react-scripts start",
-    "build": "react-dotenv && react-scripts build",
-    "test": "react-dotenv && react-scripts test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

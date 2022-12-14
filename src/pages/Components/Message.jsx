@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useContext } from "react";
@@ -12,10 +12,12 @@ const Message = ({message}) => {
     useEffect(() => {
         ref.current?.scrollIntoView({behavior: "smooth"})
     }, [message])
+    
     return (
         <div ref={ref} className={`message ${message.senderId === currentUser.uid && `owner`}`}>
             <div className="messageInfo">
                 <img src={message.senderId === currentUser.uid ? currentUser.photoURL : data.user.photoURL} alt="" />
+                <span className="displayName">{message.senderId === currentUser.uid ? currentUser.displayName : data.user.displayName}</span>
             </div>
             <div className="messageContent">
                 <p>{message.text}</p>

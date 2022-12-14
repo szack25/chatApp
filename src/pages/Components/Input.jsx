@@ -21,8 +21,12 @@ const Input = () => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
+  const handleKey = e => {
+    e.code === "Enter" && handleSend()
+  }
+
   const handleSend = async () => {
-    
+
     if (img) {
       const storageRef = ref(storage, uuid());
 
@@ -71,6 +75,7 @@ const Input = () => {
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
+    
     setText("");
     setImg(null);
   };
@@ -78,9 +83,10 @@ const Input = () => {
     <div className="input">
       <input
         type="text"
-        placeholder="Type something..."
+        placeholder="Write your message here"
         onChange={(e) => setText(e.target.value)}
         value={text}
+        onKeyDown={handleKey}
       />
       <div className="send">
         <img src={Attach} alt="" />
