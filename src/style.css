@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Merriweather+Sans:wght@700&display=swap');@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Merriweather+Sans:wght@700&family=Nunito:wght@300&display=swap');
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Kalam', 'Merriweather Sans', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+p, span {
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px !important;
+}
+span {
+  font-size: 12px !important;
+}
 .formContainer {
   background-color: bisque;
   height: 100vh;
@@ -8,7 +20,7 @@
 .formContainer .formWrapper {
   background-color: black;
   padding: 20px 60px;
-  border-radius: 10px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -23,7 +35,7 @@
 .formContainer .formWrapper .title {
   color: white;
   padding: 10px;
-  font-size: 32px;
+  font-size: 32px !important;
   font-weight: bold;
 }
 .formContainer .formWrapper form {
@@ -89,12 +101,15 @@
   cursor: pointer;
   padding: 5px;
 }
+.Profile button:hover {
+  background-color: #758fe7;
+}
 .home {
   background-color: bisque;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 .home .container {
   width: 100%;
@@ -146,15 +161,12 @@
   border: none;
   cursor: pointer;
 }
-.home .container .Sidebar .Chats {
-  overflow: scroll;
-  white-space: nowrap;
-}
 .home .container .Sidebar .Chats .userChatInfo {
   display: flex;
   align-items: center;
 }
 .home .container .Sidebar .Chats .userChatInfo span {
+  font-size: 17px !important;
   padding-left: 10px;
 }
 .home .container .Sidebar .Search {
@@ -223,6 +235,7 @@
 }
 .home .container .Chat .chatInfo .Bar span {
   padding-left: 10px;
+  font-size: 16px !important;
 }
 .home .container .Chat .chatInfo .Bar img {
   border: 1px solid white;
@@ -244,12 +257,14 @@
   position: absolute;
   bottom: 60px;
   left: 357px;
+  min-height: calc(100vh - 60px);
+  max-height: calc(100vh - 60px);
   width: calc(100% - 357px);
-  overflow: scroll;
   white-space: nowrap;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  overflow: auto;
 }
 .home .container .Chat .messages .message {
   display: flex;
@@ -308,16 +323,15 @@
   padding-left: 20px;
 }
 .home .container .Chat .messages .message.false img {
+  border-radius: 50% !important;
   padding-left: 20px;
 }
 .home .container .Chat .input {
   min-height: 50px;
   background-color: black;
-  padding: 10px;
-  padding-right: 0px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
 }
 .home .container .Chat .input input {
   border: none;
@@ -329,12 +343,13 @@
   border: 1px solid lightgray;
   padding: 10px;
   color: white;
-  width: 900px;
+  width: 920px;
 }
 .home .container .Chat .input .send {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 0 20px;
 }
 .home .container .Chat .input .send img {
   height: 24px;
@@ -349,4 +364,28 @@
 }
 .home .container .Chat .input .send button:hover {
   background-color: #5379f6;
+}
+
+.Welcome {
+  top: 220px;
+  position: absolute;
+  width: calc(100% - 357px);
+  text-align: center;
+}
+
+.Welcome h2 {
+  font-size: 50px;
+}
+
+.Welcome p {
+  margin-top: -20px;
+}
+
+.Loading {
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  position: absolute;
+  align-self: center;
+  justify-self: center;
 }

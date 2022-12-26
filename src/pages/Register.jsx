@@ -5,11 +5,14 @@ import { auth, db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
+import Loading from "./Components/Loading";
 
 const Register = () => {
     const [err, setErr] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    let img;
 
     const handleSubmit = async (e) => {
         setLoading(true);
@@ -27,7 +30,12 @@ const Register = () => {
             const date = new Date().getTime();
             const storageRef = ref(storage, `${displayName + date}`);
 
-            await uploadBytesResumable(storageRef, file).then(() => {
+            if (!img) {
+                setErr(true);
+                return;
+            }
+            else if (img) { 
+                await uploadBytesResumable(storageRef, file).then(() => {
                 getDownloadURL(storageRef).then(async (downloadURL) => {
                     try {
                         //Update profile
@@ -52,7 +60,7 @@ const Register = () => {
                         setLoading(false);
                     }
                 });
-            });
+            });}
         } catch (err) {
             setErr(true);
             setLoading(false);
@@ -62,20 +70,21 @@ const Register = () => {
 
     return (
         <div className="formContainer">
+            {loading && <Loading />}
             <div className="formWrapper">
                 <span className="title">Register</span>
                 <form onSubmit={handleSubmit}>
                     <input required type="text" placeholder="Display Name" />
                     <input required type="email" placeholder="Email" />
                     <input required type="password" placeholder="Password" />
-                    <input required style={{ display: "none" }} type="file" id="file" />
+                    <input style={{ display: "none" }} value={img} type="file" id="file" />
                     <label htmlFor="file">
                         <img src={Add} alt="" />
                         <span>Add an avatar</span>
                     </label>
                     <button disabled={loading}>Sign up</button>
                     {loading && "Uploading and compressing the image please wait..."}
-                    {err && <span>Something went wrong</span>}
+                    {err && <span style={{width: `270px`, textAlign: `center`}}>Something went wrong. Please try re-uploading the image.</span>}
                 </form>
                 <p>
                     Have an account? <Link to="/login">Login</Link>

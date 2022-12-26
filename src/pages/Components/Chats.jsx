@@ -6,11 +6,13 @@ import { useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { ChatContext } from "../../Context/ChatContext";
 import { db } from "../../firebase";
+import Loading from "./Loading";
 
 const Chats = () => {
     const [chats, setChats] = useState([]);
     const { currentUser } = useContext(AuthContext);
     const { dispatch } = useContext(ChatContext);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const getChats = () => {
             const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
@@ -24,10 +26,13 @@ const Chats = () => {
     }, [currentUser.uid]);
 
     const handleSelect = (u) => {
-        dispatch({ type: "CHANGE_USER", payload: u })
+        setLoading(true);
+        dispatch({ type: "CHANGE_USER", payload: u });
+        setLoading(false);
     }
     return (
         <div className="Chats">
+            {loading && <Loading />}
             {Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map(chat => (
                 <div className="userChat" key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>
                     <div className="userChatInfo">

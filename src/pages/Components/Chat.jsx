@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Messages from "./Messages";
 import Input from "./Input";
 import Bar from "./Bar";
+import Welcome from "./Welcome";
 import { ChatContext } from "../../Context/ChatContext";
 
 const Chat = () => {
@@ -10,8 +11,8 @@ const Chat = () => {
         <div className="Chat">
             <div className="chatInfo">
                 {data.user.uid ? <Bar /> : null}
-                <Messages />
-                <Input />
+                {data.user.uid ? <Messages /> : <Welcome />}
+                {data.user.uid ? <Input />: null}
             </div>
         </div>
     )

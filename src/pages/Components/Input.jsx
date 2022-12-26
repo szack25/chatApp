@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import Img from "../../Image/img.png";
-import Attach from "../../Image/attach.png";
 import { AuthContext } from "../../Context/AuthContext";
 import { ChatContext } from "../../Context/ChatContext";
 import {
@@ -17,7 +16,6 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 const Input = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
-
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
@@ -27,6 +25,12 @@ const Input = () => {
 
   const handleSend = async () => {
 
+    const trimmedText = text.trim();
+
+    if (!trimmedText) {
+      return
+    }
+
     if (img) {
       const storageRef = ref(storage, uuid());
 
@@ -34,7 +38,7 @@ const Input = () => {
 
       uploadTask.on(
         (error) => {
-          //TODO:Handle Error
+          
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
@@ -89,7 +93,6 @@ const Input = () => {
         onKeyDown={handleKey}
       />
       <div className="send">
-        <img src={Attach} alt="" />
         <input
           type="file"
           style={{ display: "none" }}

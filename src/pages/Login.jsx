@@ -4,14 +4,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { Link } from "react-router-dom";
+import Loading from "./Components/Loading";
 
 const Login = () => {
 
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
+    const [isLoading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const email = e.target[0].value;
         const password = e.target[1].value;
 
@@ -21,12 +24,14 @@ const Login = () => {
         } catch (err) {
             setErr(true);
         }
+        setLoading(false)
     }
 
     return (
         <div className="formContainer">
+            {isLoading && <Loading />}
             <div className="formWrapper">
-                <h1 className="pageTitle">Login</h1>
+                <span className="pageTitle title">Login</span>
                 <form onSubmit={handleSubmit}>
                     <input type="email" placeholder="Email" id="email" />
                     <input type="password" placeholder="Password" id="password" />

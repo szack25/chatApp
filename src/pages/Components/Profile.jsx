@@ -6,6 +6,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
+import Loading from "./Loading";
 
 const Profile = () => {
     const [err, setErr] = useState(false);
@@ -54,6 +55,7 @@ const Profile = () => {
 
     return (
         <div className="Profile">
+            {loading && <Loading />}
             <div className="user">
                 <button onClick={()=>signOut(auth)}>Logout</button>
             </div>

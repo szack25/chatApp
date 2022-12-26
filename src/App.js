@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from './Context/AuthContext';
 import Home from './pages/Home';
 import Profile from './pages/Components/Profile';
+import '../src/style.css';
 
 function App() {
   const { currentUser } = useContext(AuthContext);
