@@ -6,11 +6,11 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
-import Loading from "./Loading";
+import ReactLoading from "react-loading";
 
 const Profile = () => {
     const [err, setErr] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const currentUser = useContext(AuthContext);
@@ -19,7 +19,7 @@ const Profile = () => {
         setLoading(true);
         e.preventDefault();
         const displayName = e.target[0].value;
-        const file = e.target[1].files[0]; 
+        const file = e.target[1].files[0];
 
 
         try {
@@ -54,27 +54,31 @@ const Profile = () => {
     };
 
     return (
-        <div className="Profile">
-            {loading && <Loading />}
-            <div className="user">
-                <button onClick={()=>signOut(auth)}>Logout</button>
-            </div>
-            <div className="formContainer">
-                <div className="formWrapper">
-                    <span className="title">Profile</span>
-                    <form onSubmit={handleSubmit}>
-                        <input required type="text" placeholder={auth.currentUser.displayName ? auth.currentUser.displayName : "Display Name"} />
-                        <input required style={{ display: "none" }} type="file" id="file" />
-                        <label htmlFor="file">
-                            <img src={Add} alt="" />
-                            <span>Update your profile picture</span>
-                        </label>
-                        <button disabled={loading}>Update Account</button>
-                        {loading && "Uploading and compressing the image please wait..."}
-                        {err && <span>Something went wrong</span>}
-                    </form>
+        <div className="pageContainer">
+            {isLoading && <ReactLoading className="loading" height={'10%'} width={'10%'} color={'#A9A9A9'} type={"spin"} />}
+            {isLoading === false &&
+                <div className="Profile">
+                    <div className="user">
+                        <button onClick={() => signOut(auth)}>Logout</button>
+                    </div>
+                    <div className="formContainer">
+                        <div className="formWrapper">
+                            <span className="title">Profile</span>
+                            <form onSubmit={handleSubmit}>
+                                <input required type="text" placeholder={auth.currentUser.displayName ? auth.currentUser.displayName : "Display Name"} />
+                                <input required style={{ display: "none" }} type="file" id="file" />
+                                <label htmlFor="file">
+                                    <img src={Add} alt="" />
+                                    <span>Update your profile picture</span>
+                                </label>
+                                <button disabled={isLoading}>Update Account</button>
+                                {isLoading && "Uploading and compressing the image please wait..."}
+                                {err && <span>Something went wrong</span>}
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     );
 };

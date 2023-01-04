@@ -5,11 +5,11 @@ import { auth, db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
-import Loading from "./Components/Loading";
+import ReactLoading from "react-loading";
 
 const Register = () => {
     const [err, setErr] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     let img;
@@ -29,13 +29,7 @@ const Register = () => {
             //Create a unique image name
             const date = new Date().getTime();
             const storageRef = ref(storage, `${displayName + date}`);
-
-            if (!img) {
-                setErr(true);
-                return;
-            }
-            else if (img) { 
-                await uploadBytesResumable(storageRef, file).then(() => {
+            await uploadBytesResumable(storageRef, file).then(() => {
                 getDownloadURL(storageRef).then(async (downloadURL) => {
                     try {
                         //Update profile
@@ -60,36 +54,39 @@ const Register = () => {
                         setLoading(false);
                     }
                 });
-            });}
+            });
         } catch (err) {
             setErr(true);
             setLoading(false);
         }
-        
+
     };
 
     return (
-        <div className="formContainer">
-            {loading && <Loading />}
-            <div className="formWrapper">
-                <span className="title">Register</span>
-                <form onSubmit={handleSubmit}>
-                    <input required type="text" placeholder="Display Name" />
-                    <input required type="email" placeholder="Email" />
-                    <input required type="password" placeholder="Password" />
-                    <input style={{ display: "none" }} value={img} type="file" id="file" />
-                    <label htmlFor="file">
-                        <img src={Add} alt="" />
-                        <span>Add an avatar</span>
-                    </label>
-                    <button disabled={loading}>Sign up</button>
-                    {loading && "Uploading and compressing the image please wait..."}
-                    {err && <span style={{width: `270px`, textAlign: `center`}}>Something went wrong. Please try re-uploading the image.</span>}
-                </form>
-                <p>
-                    Have an account? <Link to="/login">Login</Link>
-                </p>
-            </div>
+        <div className="pageContainer">
+            {isLoading && <ReactLoading className="loading" height={'10%'} width={'10%'} color={'#A9A9A9'} type={"spin"} />}
+            {isLoading === false &&
+                <div className="formContainer">
+                    <div className="formWrapper">
+                        <span className="title">Register</span>
+                        <form onSubmit={handleSubmit}>
+                            <input required type="text" placeholder="Display Name" />
+                            <input required type="email" placeholder="Email" />
+                            <input required type="password" placeholder="Password" />
+                            <input style={{ display: "none" }} value={img} type="file" id="file" />
+                            <label htmlFor="file">
+                                <img src={Add} alt="" />
+                                <span>Add an avatar</span>
+                            </label>
+                            <button disabled={isLoading}>Sign up</button>
+                            {err && <span style={{ width: `270px`, textAlign: `center` }}>Something went wrong. Please try re-uploading the image or maybe you already made an account.</span>}
+                        </form>
+                        <p>
+                            Have an account? <Link to="/login">Login</Link>
+                        </p>
+                    </div>
+                </div>
+            }
         </div>
     );
 };

@@ -6,13 +6,13 @@ import { useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { ChatContext } from "../../Context/ChatContext";
 import { db } from "../../firebase";
-import Loading from "./Loading";
+import ReactLoading from "react-loading";
 
 const Chats = () => {
     const [chats, setChats] = useState([]);
     const { currentUser } = useContext(AuthContext);
     const { dispatch } = useContext(ChatContext);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
     useEffect(() => {
         const getChats = () => {
             const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
@@ -31,18 +31,19 @@ const Chats = () => {
         setLoading(false);
     }
     return (
-        <div className="Chats">
-            {loading && <Loading />}
-            {Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map(chat => (
-                <div className="userChat" key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>
-                    <div className="userChatInfo">
-                        <img className="owner-image" src={chat[1].userInfo.photoURL} alt="" />
-                        <span>{chat[1].userInfo.displayName}</span>
+        <div className={isLoading ? `bg-gray pageContainer` : null}>
+            {isLoading && <ReactLoading  height={'10%'} width={'10%'} type={"spin"} />}
+            <div className="Chats">
+                {Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map(chat => (
+                    <div className="userChat" key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>
+                        <div className="userChatInfo">
+                            <img className="owner-image" src={chat[1].userInfo.photoURL} alt="" />
+                            <span>{chat[1].userInfo.displayName}</span>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
-
     )
 }
 

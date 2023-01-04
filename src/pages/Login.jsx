@@ -1,11 +1,10 @@
-import { getRedirectResult, GithubAuthProvider, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { Link } from "react-router-dom";
-import Loading from "./Components/Loading";
-import { FaGithub } from "react-icons/fa";
+import ReactLoading from "react-loading";
 
 const Login = () => {
 
@@ -28,36 +27,23 @@ const Login = () => {
         setLoading(false)
     }
 
-    const GitHubLogin = () => {
-        const provider = new GithubAuthProvider;
-        provider.addScope('repo');
-        signInWithRedirect(auth, provider);
-        getRedirectResult(auth)
-            .then((result) => {
-                const credential = GithubAuthProvider.credentialFromResult(result);
-                if (credential) {
-                    const token = credential.accessToken;
-                    const user = result.user;
-                }
-            }).catch((error) => {
-                
-            })
-    }
-
     return (
-        <div className="formContainer">
-            {isLoading && <Loading />}
-            <div className="formWrapper">
-                <span className="pageTitle title">Login</span>
-                <form onSubmit={handleSubmit}>
-                    <input type="email" placeholder="Email" id="email" />
-                    <input type="password" placeholder="Password" id="password" />
-                    <button>Sign In</button>
-                    {err && <span>Something went wrong</span>}
-                </form>
-                <button className="gh-login" onClick={GitHubLogin}><span className="gh-logo"><FaGithub size="18" /></span>Login with Github</button>
-                <p className="noAccount">You don't have an account? <Link to="/register">Register</Link></p>
-            </div>
+        <div className="pageContainer">
+            {isLoading && <ReactLoading className="loading" height={'10%'} width={'10%'} color={'#A9A9A9'} type={"spin"} />}
+            {isLoading === false &&
+                <div className="formContainer">
+                    <div className="formWrapper">
+                        <span className="pageTitle title">Login</span>
+                        <form onSubmit={handleSubmit}>
+                            <input type="email" placeholder="Email" id="email" />
+                            <input type="password" placeholder="Password" id="password" />
+                            <button>Sign In</button>
+                            {err && <span>Something went wrong</span>}
+                        </form>
+                        <p className="noAccount">You don't have an account? <Link to="/register">Register</Link></p>
+                    </div>
+                </div>
+            }
         </div>
     )
 }

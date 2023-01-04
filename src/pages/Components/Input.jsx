@@ -12,10 +12,12 @@ import {
 import { db, storage } from "../../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import ReactLoading from "react-loading";
 
 const Input = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
+  const [isLoading, setLoading] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
@@ -24,10 +26,11 @@ const Input = () => {
   }
 
   const handleSend = async () => {
-
+    setLoading(true);
     const trimmedText = text.trim();
 
     if (!trimmedText) {
+      setLoading(false)
       return
     }
 
@@ -38,7 +41,7 @@ const Input = () => {
 
       uploadTask.on(
         (error) => {
-          
+
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
@@ -79,30 +82,34 @@ const Input = () => {
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
-    
+
     setText("");
     setImg(null);
+    setLoading(false);
   };
   return (
-    <div className="input">
-      <input
-        type="text"
-        placeholder="Write your message here"
-        onChange={(e) => setText(e.target.value)}
-        value={text}
-        onKeyDown={handleKey}
-      />
-      <div className="send">
+    <div className={isLoading ? `bg-gray pageContainer` : null}>
+      {isLoading && <ReactLoading  height={'10%'} width={'10%'} type={"spin"} />}
+      <div className="input">
         <input
-          type="file"
-          style={{ display: "none" }}
-          id="file"
-          onChange={(e) => setImg(e.target.files[0])}
+          type="text"
+          placeholder="Write your message here"
+          onChange={(e) => setText(e.target.value)}
+          value={text}
+          onKeyDown={handleKey}
         />
-        <label htmlFor="file">
-          <img src={Img} alt="" />
-        </label>
-        <button onClick={handleSend}>Send</button>
+        <div className="send">
+          <input
+            type="file"
+            style={{ display: "none" }}
+            id="file"
+            onChange={(e) => setImg(e.target.files[0])}
+          />
+          <label htmlFor="file">
+            <img src={Img} alt="" />
+          </label>
+          <button onClick={handleSend}>Send</button>
+        </div>
       </div>
     </div>
   );
