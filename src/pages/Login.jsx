@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { Link } from "react-router-dom";
-import ReactLoading from "react-loading";
+import { ReactLoading } from "react-loading";
 
 const Login = () => {
 

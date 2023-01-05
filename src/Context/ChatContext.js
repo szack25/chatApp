@@ -21,7 +21,7 @@ import {
           return {
             user: action.payload,
             chatId:
-              currentUser.uid > action.payload.uid
+              currentUser.uid < action.payload.uid
                 ? currentUser.uid + action.payload.uid
                 : action.payload.uid + currentUser.uid,
           };

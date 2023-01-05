@@ -315,9 +315,10 @@ span {
   width: calc(100% - 357px);
   white-space: nowrap;
   display: flex;
+  display: block;
   flex-direction: column;
   justify-content: flex-end;
-  overflow: auto;
+  overflow: scroll;
 }
 
 .home .container .Chat .messages .message {

@@ -12,7 +12,7 @@ const Search = () => {
     const { currentUser } = useContext(AuthContext)
 
     const handleSearch = async () => {
-        const q = query(collection(db, "users"), where("displayName", "==", username)); // figure out how to make first letter of variable "username" to be uppercase
+        const q = query(collection(db, "users"), where("displayName", "==", username[0].toUpperCase() + username.substring(1)))
         try {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
@@ -62,7 +62,7 @@ const Search = () => {
     return (
         <div className="Search">
             <div className="searchForm">
-                <input onKeyDown={handleKey} onChange={(e) => setUsername(e.target.value.toLowerCase)} value={username} type="text" placeholder="Find a User" />
+                <input onKeyDown={handleKey} onChange={(e) => setUsername(e.target.value)} value={username} type="text" placeholder="Find a User" />
             </div>
             {err && <span>No user matches that name</span>}
             {user && (

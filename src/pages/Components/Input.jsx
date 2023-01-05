@@ -82,10 +82,9 @@ const Input = () => {
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
-
+    setLoading(false)
     setText("");
     setImg(null);
-    setLoading(false);
   };
   return (
     <div className={isLoading ? `bg-gray pageContainer` : null}>
